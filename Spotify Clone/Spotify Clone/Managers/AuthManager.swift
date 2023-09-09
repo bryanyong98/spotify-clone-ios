@@ -49,7 +49,6 @@ final class AuthManager {
         code: String,
         completion: @escaping ((Bool) -> Void)
     ) {
-        // Get token
     }
 
     private func refreshAccessToken() {
