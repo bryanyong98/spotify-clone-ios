@@ -5,8 +5,8 @@
 //  Created by Bryan Yong on 03/09/2023.
 //
 
+import SDWebImage
 import UIKit
-import Foundation
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -72,9 +72,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         headerView.addSubview(imageView)
         imageView.center = headerView.center
         imageView.contentMode = .scaleAspectFill
-        // TODO: Cache the image with SDWeb image
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = imageSize/2
+
+        // cache image
+        imageView.sd_setImage(with: url)
 
         tableView.tableHeaderView = headerView
     }

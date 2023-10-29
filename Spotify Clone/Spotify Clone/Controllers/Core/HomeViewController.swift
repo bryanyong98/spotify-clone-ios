@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         title = "Home"
         let button = UIBarButtonItem(
-            image: UIImage(named: "gear"),
+            image: UIImage(systemName: "gear"),
             style: .done,
             target: self,
             action: #selector(didTapSettings)
