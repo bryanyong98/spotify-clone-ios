@@ -17,13 +17,17 @@ final class APICaller {
         static let baseURL = "https://api.spotify.com/v1"
     }
 
+    struct EndPoint {
+        static let userProfile = "/me"
+    }
+
     enum APIError: Error {
         case failedToGetData
     }
 
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(
-            with: URL(string: ""),
+            with: URL(string: "\(Constants.baseURL)\(EndPoint.userProfile)"),
             type: .GET
         ) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
@@ -34,9 +38,10 @@ final class APICaller {
 
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-                    print(result)
+                    completion(.success(result))
                 }
                 catch {
+                    print("receive getCurrentUserProfile error: \(error)")
                     completion(.failure(error))
                 }
             }
