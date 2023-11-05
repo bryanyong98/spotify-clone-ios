@@ -18,7 +18,7 @@ class HomeViewController: UIViewController {
             target: self,
             action: #selector(didTapSettings)
         )
-        button.tintColor = .systemBlue
+        button.tintColor = .label
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = button
     }
