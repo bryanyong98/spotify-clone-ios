@@ -76,7 +76,7 @@ final class APICaller {
         }
     }
 
-    public func getFeaturedPlaylists(completion: @escaping ((Result<FeaturedPlaylists, Error>)) -> Void) {
+    public func getFeaturedPlaylists(completion: @escaping ((Result<FeaturedPlaylistsResponse, Error>)) -> Void) {
         createRequest(
             with: URL(string: "\(Constants.baseURL)\(EndPoint.featuredPlaylists)"),
             type: .GET,
@@ -88,7 +88,7 @@ final class APICaller {
                     }
 
                     do {
-                        let result = try JSONDecoder().decode(FeaturedPlaylists.self, from: data)
+                        let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
                         print("receive featured playlist: \(result)")
                         completion(.success(result))
                     }
@@ -102,10 +102,10 @@ final class APICaller {
         )
     }
 
-    public func getRecommendations(genres: Set<String>, completion: @escaping ((Result<RecommendedGenres, Error>)) -> Void) {
+    public func getRecommendations(genres: Set<String>, completion: @escaping ((Result<RecommendationsResponse, Error>)) -> Void) {
         let seeds = genres.joined(separator: ",")
         createRequest(
-            with: URL(string: "\(Constants.baseURL)\(EndPoint.recommendations)?seed_genre\(seeds)"),
+            with: URL(string: "\(Constants.baseURL)\(EndPoint.recommendations)?limit=40&seed_genres=\(seeds)"),
             type: .GET,
             completion: { request in
                 let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -115,12 +115,10 @@ final class APICaller {
                     }
 
                     do {
-                        let result = try JSONDecoder().decode(RecommendedGenres.self, from: data)
-                        print("receive featured playlist: \(result)")
+                        let result = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
                         completion(.success(result))
                     }
                     catch {
-                        print("receive feat playlist error: \(error)")
                         completion(.failure(error))
                     }
                 }
@@ -171,7 +169,6 @@ final class APICaller {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             request.httpMethod = type.rawValue
             request.timeoutInterval = 30
-
             completion(request)
         }
     }
