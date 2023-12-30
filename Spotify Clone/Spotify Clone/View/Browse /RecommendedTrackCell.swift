@@ -5,4 +5,8 @@
 //  Created by Bryan Yong on 24/12/2023.
 //
 
-import Foundation
+import UIKit
+
+class RecommendedTrackCell: UICollectionViewCell {
+    static let identifier = "RecommendedTrackCell"
+}
